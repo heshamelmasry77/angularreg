@@ -15,7 +15,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
         controller: 'SuccessController'
     }).
     otherwise({
-        redirectTo: 'login'
+        redirectTo: '/login'
     });
 
 }]);
