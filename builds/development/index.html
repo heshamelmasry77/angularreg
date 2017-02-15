@@ -16,7 +16,13 @@
 </head>
 
 <body>
-    <header></header>
+    <header>
+        <!-- ng-include it allows you to include a document inside another document -->
+        <!-- You actually need to put another set of single quotes right here, and then paste the item that you want to include. -->
+        <nav class="cf" ng-include="'views/nav.html'">
+
+        </nav>
+    </header>
     <div class="page">
         <main class="cf" ng-view>
 
