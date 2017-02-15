@@ -1,10 +1,28 @@
-myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseAuth', function($rootScope, $location, $firebaseAuth) {
+myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseObject', '$firebaseAuth', function($rootScope, $location, $firebaseObject, $firebaseAuth) {
     // create a reference to the database
     var ref = firebase.database().ref();
     // So this will be a reference to our database
 
     // another variable for the authentication part.
     var auth = $firebaseAuth();
+
+    // im going to use another method called onAuthStateChanged.
+    // This method is going to allow us to detect when a user has logged in
+    auth.$onAuthStateChanged(function(authUser) {
+        if (authUser) { // if thre is an authenticated user then do the below code
+
+            // get a reference to the current user using the user's ID that we get as a result of the authentication event
+            var userRef = ref.child('users').child(authUser.uid);
+
+            // I'll create another variable here, userObj. And to get that information from the users, I need to use a library called firebaseObject using my userRef
+            var userObj = $firebaseObject(userRef);
+            $rootScope.currentUser = userObj;
+        } else {
+            $rootScope.currentUser = '';
+
+        }
+    });
+
 
     // this service is going to return an object and this object is going to have a couple of methods
     return {
@@ -18,7 +36,7 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseAuth', fun
                 $location.path('/success');
             }).catch(function(error) {
                 $rootScope.message = error.message;
-            }) //signInWithEmailAndPassword
+            }); //signInWithEmailAndPassword
         }, //login
         register: function(user) {
 
