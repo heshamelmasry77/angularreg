@@ -1,4 +1,4 @@
-myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', function($rootScope, $firebaseAuth) {
+myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseAuth', function($rootScope, $location, $firebaseAuth) {
     // create a reference to the database
     var ref = firebase.database().ref();
     // So this will be a reference to our database
@@ -9,8 +9,16 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', function($rootSc
     // this service is going to return an object and this object is going to have a couple of methods
     return {
         login: function(user) {
-            $rootScope.message = "Welcome " + $rootScope.user.email;
 
+            auth.$signInWithEmailAndPassword(
+                user.email,
+                user.password
+            ).then(function(user) {
+                // send the user to another page
+                $location.path('/success');
+            }).catch(function(error) {
+                $rootScope.message = error.message;
+            }) //signInWithEmailAndPassword
         }, //login
         register: function(user) {
 
