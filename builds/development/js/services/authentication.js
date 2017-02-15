@@ -25,6 +25,14 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', function($rootSc
                 user.email,
                 user.password
             ).then(function(regUser) {
+                var regRef = ref.child('users')
+                    .child(regUser.uid).set({
+                        date: firebase.database.ServerValue.TIMESTAMP,
+                        regUser: regUser.uid,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        email: user.email
+                    }); //userinfo
                 $rootScope.message = "Hi " + user.firstname + ", Thank's for registering";
 
             }).catch(function(error) {
@@ -33,5 +41,7 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', function($rootSc
 
         } //register
     } //return
+
+
 
 }]); //factory
