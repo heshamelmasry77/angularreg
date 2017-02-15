@@ -6,6 +6,8 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseObject', '
     // another variable for the authentication part.
     var auth = $firebaseAuth();
 
+    var myObject;
+
     // im going to use another method called onAuthStateChanged.
     // This method is going to allow us to detect when a user has logged in
     auth.$onAuthStateChanged(function(authUser) {
@@ -25,7 +27,8 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseObject', '
 
 
     // this service is going to return an object and this object is going to have a couple of methods
-    return {
+
+    myObject = {
         login: function(user) {
 
             auth.$signInWithEmailAndPassword(
@@ -65,14 +68,17 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseObject', '
                         lastname: user.lastname,
                         email: user.email
                     }); //userinfo
-                $rootScope.message = "Hi " + user.firstname + ", Thank's for registering";
+                // $rootScope.message = "Hi " + user.firstname + ", Thank's for registering";
+                myObject.login(user);
 
             }).catch(function(error) {
                 $rootScope.message = error.message;
             }); //createUserWithEmailAndPassword
 
         } //register
-    } //return
+    };
+    return myObject;
+    //return
 
 
 
