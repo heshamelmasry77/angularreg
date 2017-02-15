@@ -38,6 +38,9 @@ myApp.factory('Authentication', ['$rootScope', '$location', '$firebaseObject', '
                 $rootScope.message = error.message;
             }); //signInWithEmailAndPassword
         }, //login
+        logout: function() {
+            return auth.$signOut();
+        }, //logout
         register: function(user) {
 
             // so that we can register with an account
