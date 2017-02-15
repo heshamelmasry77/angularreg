@@ -1,17 +1,25 @@
 <section class="card login">
+    <!-- novalidate  to make angualr takeover the form validation  -->
     <form name="myform" novalidate>
 
         <div class="textintro">
             <h1>Hi there!</h1>
             <p>Log-in to access the awesomeness!</p>
             <p>
-                {{ message }}
+                {{ myform.email.$invalid }}
             </p>
         </div>
 
         <fieldset>
-            <input type="email" name="email" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
+            <!-- when somebody types in to this input field, Angular is going to create for us a variable and we're going to put that inside a user object and this ones going to be called email. So ngmodel is going to create a variable in the current apps scope -->
+            <input type="email" name="email" placeholder="Email" ng-model="user.email" ng-required="true">
+            <p class="error validationerror" ng-show="myform.email.$invalid && myform.email.$touched">
+                Must be a valid email
+            </p>
+            <input type="password" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
+            <p class="error validationerror" ng-show="myform.password.$invalid && myform.password.$touched">
+                Password is required
+            </p>
         </fieldset>
 
         <button type="submit" class="btn">Login</button>
